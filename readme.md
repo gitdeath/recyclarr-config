@@ -27,9 +27,9 @@ This profile is for standard television series.
     -   `Language Not Original`: Strongly rejects any release that is not in the show's original language.
 -   **Default Scores (from TRaSH Guides):**
     -   **Unwanted:** Rejects BR-DISK, low-quality (LQ) releases, extras, AV1/x265(HD) codecs, and releases from bad dual-audio groups.
-    -   **Release Quality:** Prefers `Repack/Proper` releases to get fixes.
-    -   **Source Preference:** Prefers releases from high-quality WEB sources (Tiers 01-03) and Scene groups.
-    -   **Streaming Services:** Scores releases from various streaming services (Netflix, HBO Max, DSNP, etc.).
+    -   **Release Quality:** Scores `Repack/Proper` releases to get fixes.
+    -   **Source Preference:** Scores releases from high-quality WEB sources (Tiers 01-03) and Scene groups.
+    -   **Streaming Services:** Scores releases from various streaming services (e.g., Netflix, HBO Max, DSNP).
 -   **Informational (0 score):**
     -   A wide range of audio formats (DTS, Dolby Digital, Atmos, etc.) are tagged for visibility in the Sonarr UI but do not affect scoring.
 
@@ -71,7 +71,7 @@ This instance is configured for a general-purpose 1080p movie library.
 -   **Default Scores (from TRaSH Guides):**
     -   **Unwanted:** Rejects BR-DISK, 3D, upscaled, LQ, and AV1/x265(HD) releases.
     -   **Source Preference:** Prefers releases from high-quality Blu-ray and WEB groups (Tiers 01-03).
-    -   **Audio Preference:** Prefers releases with `5.1 Surround`, `DD`, and `DD+` audio.
+    -   **Audio Preference:** Prefers releases with `5.1 Surround` and `DD` audio.
 -   **Informational (0 score):**
     -   Tags for special movie versions (`Criterion Collection`, `IMAX`, etc.) and certain audio codecs (`FLAC`, `AAC`) are applied for visibility without affecting scores.
 
@@ -92,9 +92,9 @@ This instance is dedicated to acquiring high-quality 4K HDR movies.
 -   **Penalized (-1500 score):**
     -   `DTS`, `DTS:X`, `DTS-HD MA`, `TrueHD`, `TrueHD ATMOS`: Strongly rejects releases with these high-resolution audio codecs.
 -   **Default Scores (from TRaSH Guides):**
-    -   **HDR Formats:** Strongly prefers releases with any form of HDR, including `HDR10+`, `Dolby Vision (DV)`, and `HLG`.
+    -   **HDR Formats:** Strongly prefers releases with any form of HDR, including `HDR10+` and `Dolby Vision (DV)`.
     -   **Source Preference:** Prefers releases from top-tier UHD Blu-ray and WEB groups.
     -   **Unwanted:** Rejects BR-DISK, 3D, upscaled, LQ, and AV1/x265(HD) releases.
-    -   **Audio Preference:** Prefers releases with `5.1 Surround`, `DD`, and `DD+` audio.
+    -   **Audio Preference:** Prefers releases with `5.1 Surround` and `DD` audio.
 -   **Informational (0 score):**
     -   Tags for special movie versions (`IMAX`, `Remaster`) and certain audio codecs (`FLAC`, `AAC`) are applied for visibility.
