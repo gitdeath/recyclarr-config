@@ -7,6 +7,14 @@ The configuration is split into three main instances:
 2.  **Radarr (`radarr_1080p`):** Manages a library of 1080p movies, with a focus on specific audio codecs.
 3.  **Radarr (`radarr_4k`):** Manages a high-quality 4K HDR movie library.
 
+## Quick Start
+
+You can download this configuration file directly to your current directory in a Linux environment using `curl`.
+
+```bash
+curl -O https://raw.githubusercontent.com/gitdeath/recyclarr-config/main/recyclarr.yml
+```
+
 ---
 
 ## Sonarr Instance: `sonarr_tv_anime`
