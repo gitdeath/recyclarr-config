@@ -2,7 +2,7 @@ sonarr:
   sonarr_tv_anime:
 
     delete_old_custom_formats: false
-    replace_existing_custom_formats: false
+    replace_existing_custom_formats: true
 
     quality_profiles:
       - name: Anime
@@ -203,7 +203,7 @@ radarr:
   radarr_1080p:
 
     delete_old_custom_formats: false # Set to true for first run after major changes
-    replace_existing_custom_formats: false # Set to true for first run after major changes
+    replace_existing_custom_formats: true # Set to true for first run after major changes
 
     quality_definition:
       type: anime
@@ -350,7 +350,7 @@ radarr:
   radarr_4k:
 
     delete_old_custom_formats: false # Set to true for first run after major changes
-    replace_existing_custom_formats: false # Set to true for first run after major changes
+    replace_existing_custom_formats: true # Set to true for first run after major changes
 
     quality_definition:
       type: movie
