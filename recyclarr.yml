@@ -67,6 +67,9 @@ sonarr:
               - WEBRip-480p
               - SDTV
               - Bluray-480p
+          - name: Unknown # If all else fails, accept anything (usually will be SDTV)
+            qualities:
+              - Unknown
 
     custom_formats:
       - trash_ids:
