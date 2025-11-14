@@ -42,7 +42,7 @@ This instance handles both TV shows and Anime, directing them to separate qualit
 This profile is for standard television series.
 
 -   **Quality Priority:** It prioritizes releases in named groups: `WEB 1080p` is first, followed by a `1080p` group (for Blu-ray/HDTV), a `720p` group, an `Other` group for SD formats, and finally an `Unknown` group as a catch-all. This is designed to get good quality releases while being mindful of storage space.
--   **Upgrades:** It allows upgrades until a release reaches `WEB 1080p` quality or a custom format score of `1000`.
+-   **Upgrades:** It allows upgrades until a release reaches `WEB 1080p` quality with a custom format score of `1500`.
 -   **Score Cleaning:** `reset_unmatched_scores` is enabled, which means any custom format not explicitly defined for this profile in the config will have its score reset to `0`. This prevents unwanted formats from influencing download choices.
 
 #### Custom Format Scoring for `TV`
@@ -63,7 +63,7 @@ This profile is for standard television series.
 This profile is specifically tuned for Anime series.
 
 -   **Quality Priority:** Similar to the TV profile, it prioritizes `WEB 1080p` releases over Blu-ray to save space, followed by other resolutions.
--   **Upgrades:** Allows upgrades until a release is `WEB 1080p` or has a score of `1000`.
+-   **Upgrades:** Allows upgrades until a release is `WEB 1080p` with a score of `600`.
 -   **Scoring:** It requires a minimum format score of `100`, meaning it will not grab releases unless they match a preferred custom format. It uses the `anime-sonarr` score set from the TRaSH guides.
 
 #### Custom Format Scoring for `Anime`
@@ -86,7 +86,7 @@ This instance is configured for a general-purpose 1080p movie library.
 ### Quality Profile: `Movies 1080p`
 
 -   **Quality Priority:** Groups all 1080p sources (WEB, Blu-ray, HDTV) together, allowing the custom format score to be the primary decision-maker for the best release.
--   **Upgrades:** Allows upgrades until a score of `3400` is reached within the `1080p` quality group.
+-   **Upgrades:** Allows upgrades until a score of `2350` is reached within the `1080p` quality group.
 -   **Audio Preference:** This profile is explicitly configured to heavily penalize DTS and other high-bitrate or lossless audio codecs (e.g., DTS-HD MA, TrueHD). The primary reasons for this are the declining support for DTS formats and to ensure broader hardware compatibility.
 
 #### Custom Format Scoring for `Movies 1080p`

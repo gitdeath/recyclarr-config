@@ -11,7 +11,7 @@ sonarr:
         upgrade:
           allowed: true
           until_quality: 'WEB 1080p'
-          until_score: 1000
+          until_score: 600 # Anime Web Tier 01 or better
         min_format_score: 100
         score_set: anime-sonarr
         quality_sort: top
@@ -42,7 +42,7 @@ sonarr:
         upgrade:
           allowed: true
           until_quality: WEB 1080p
-          until_score: 1000
+          until_score: 1500 # Web Tier release
         min_format_score: 0
         quality_sort: top
         qualities:
@@ -222,7 +222,7 @@ radarr:
         upgrade:
           allowed: true
           until_quality: '1080p'
-          until_score: 3400
+          until_score: 2350 # DD or better and Web Tier 03 or better
         min_format_score: 1
         quality_sort: top
         qualities:
@@ -278,9 +278,6 @@ radarr:
           - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
           - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
           # HQ Release Groups
-          #- ed27ebfef2f323e964fb1f61391bcb35 # HD Bluray Tier 01
-          #- c20c8647f2746a1f4c4262b0fbbeeeae # HD Bluray Tier 02
-          #- 5608c71bcebba0a5e666223bae8c9227 # HD Bluray Tier 03
           - c20f169ef63c5f40c2def54abaf4438e # WEB Tier 01
           - 403816d65392c79236dcb6dd591aeda4 # WEB Tier 02
           - af94e0fe497124d1f9ce732069ec8c3b # WEB Tier 03
@@ -378,7 +375,7 @@ radarr:
         upgrade:
           allowed: true
           until_quality: 2160p
-          until_score: 13400
+          until_score: 13400 # Best possible quality
         min_format_score: 1
         quality_sort: top
         qualities:
