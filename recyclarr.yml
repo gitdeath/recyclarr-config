@@ -306,6 +306,10 @@ radarr:
           - 185f1dd7264c4562b9022d963ac37424 # DDPlus
           - c2998bd0d90ed5621d8df281e839436e # DD
           - 1af239278386be2919e1bcee0bde047e # DDPlus Atmos
+        assign_scores_to:
+          - name: Movies 1080p
+
+      - trash_ids:
           # Streaming Services
           - b3b3a6ac74ecbd56bcdbefa4799fb9df # AMZN
           - 40e9380490e748672c2522eaaeb692f7 # ATVP
@@ -324,6 +328,7 @@ radarr:
           - 2a6039655313bf5dab1e43523b62c374 # MA
         assign_scores_to:
           - name: Movies 1080p
+            score: '50' 
 
       # Tags for Visual use only
       - trash_ids:
@@ -418,6 +423,16 @@ radarr:
           - 0a3f082873eb454bde444150b70253cc # Extras
           - 712d74cd88bceb883ee32f773656b1f5 # Sing-Along Versions
           - cae4ca30163749b891686f95532519bd # AV1
+
+          # Desired Audio Formats
+          - 77ff61788dfe1097194fd8743d7b4524 # 5.1 Surround
+          - 185f1dd7264c4562b9022d963ac37424 # DDPlus
+          - c2998bd0d90ed5621d8df281e839436e # DD
+          - 1af239278386be2919e1bcee0bde047e # DDPlus Atmos
+        assign_scores_to:
+          - name: Movies 4k
+
+      - trash_ids:
           # Streaming Services
           - cc5e51a9e85a6296ceefe097a77f12f4 # BCORE
           - 16622a6911d1ab5d5b8b713d5b0036d4 # CRiT
@@ -434,13 +449,10 @@ radarr:
           - c9fd353f8f5f1baf56dc601c4cb29920 # PCOK
           - e36a0ba1bc902b26ee40818a1d59b8bd # PMTP
           - c2863d2a50c9acad1fb50e53ece60817 # STAN
-          # Desired Audio Formats
-          - 77ff61788dfe1097194fd8743d7b4524 # 5.1 Surround
-          - 185f1dd7264c4562b9022d963ac37424 # DDPlus
-          - c2998bd0d90ed5621d8df281e839436e # DD
-          - 1af239278386be2919e1bcee0bde047e # DDPlus Atmos
         assign_scores_to:
           - name: Movies 4k
+            score: '50'
+
 
       # Unsupported Audio Formats
       - trash_ids:
