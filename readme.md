@@ -7,6 +7,22 @@ The configuration is split into three main instances:
 2.  **Radarr (`radarr_1080p`):** Manages a library of 1080p movies, with a focus on specific audio codecs.
 3.  **Radarr (`radarr_4k`):** Manages a high-quality 4K HDR movie library.
 
+## Is This Configuration For You?
+
+This Recyclarr setup is designed for users who want a highly automated, "set-it-and-forget-it" media server. It's a good fit if you identify with the following:
+
+*   **You value automation over manual searching:** The primary goal is to find and grab the best possible release automatically, even for obscure or older content, minimizing the need for manual intervention.
+*   **You have flexible playback options:** Your setup includes clients that can direct play a wide variety of formats, or you use a media server (like Plex or Jellyfin) capable of transcoding when needed.
+*   **You prefer quality and compatibility:** The profiles are tuned to prefer widely supported formats to reduce transcoding. It also actively avoids known bad release groups to prevent downloading junk files, which ultimately saves you from manual cleanup.
+*   **You manage both TV and Anime:** This configuration uses a single Sonarr instance with separate, optimized profiles for both regular TV shows and Anime.
+*   **You want control over movie resolution:** The setup includes separate Radarr instances for 1080p and 4K movies. You can easily use one, the other, or both by simply commenting out the instance you don't need in your `recyclarr.yml` file.
+
+### Prerequisites & Setup
+
+This configuration file is meant to be used with [**Recyclarr**](https://github.com/recyclarr/recyclarr). Please follow the official installation and setup guides.
+
+It is also assumed that you are using a `secrets.yml` file to store your API keys and instance URLs, as this is a security best practice. You can find the official documentation on how to set this up [here](https://recyclarr.dev/wiki/yaml/secrets-reference/).
+
 ## Quick Start
 
 You can download this configuration file directly to your current directory in a Linux environment using `curl`.
@@ -71,7 +87,6 @@ This instance is configured for a general-purpose 1080p movie library.
 
 -   **Quality Priority:** Groups all 1080p sources (WEB, Blu-ray, HDTV) together, allowing the custom format score to be the primary decision-maker for the best release.
 -   **Upgrades:** Allows upgrades until a score of `3400` is reached within the `1080p` quality group.
--   **Audio Preference:** This profile is explicitly configured to **reject** DTS and other high-bitrate or lossless audio codecs (e.g., DTS-HD MA, TrueHD). The primary reasons for this rejection are the declining support for DTS formats and to ensure broader hardware compatibility.
 -   **Audio Preference:** This profile is explicitly configured to heavily penalize DTS and other high-bitrate or lossless audio codecs (e.g., DTS-HD MA, TrueHD). The primary reasons for this are the declining support for DTS formats and to ensure broader hardware compatibility.
 
 #### Custom Format Scoring for `Movies 1080p`
@@ -96,7 +111,6 @@ This instance is dedicated to acquiring high-quality 4K HDR movies.
 
 -   **Quality Priority:** Only seeks out `2160p` releases.
 -   **Upgrades:** Allows upgrades until a custom format score of `13400` is reached.
--   **Audio Preference:** This profile **rejects** high-bitrate and lossless audio formats (e.g., DTS, DTS-HD MA, TrueHD). This decision is driven by the declining support for DTS formats and to ensure broader hardware compatibility. Additionally, rejecting these formats helps save significant storage space while still prioritizing a high-quality 4K picture.
 -   **Audio Preference:** This profile heavily penalizes high-bitrate and lossless audio formats (e.g., DTS, DTS-HD MA, TrueHD). This decision is driven by the declining support for DTS formats and to ensure broader hardware compatibility. 
 
 #### Custom Format Scoring for `Movies 4k`
