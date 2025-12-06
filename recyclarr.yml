@@ -222,7 +222,7 @@ radarr:
         upgrade:
           allowed: true
           until_quality: '1080p'
-          until_score: 2350 # DD or better and Web Tier 03 or better
+          until_score: 1750 # DD+ or Web Tier and anything 
         min_format_score: 1
         quality_sort: top
         qualities:
