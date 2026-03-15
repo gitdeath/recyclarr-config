@@ -12,7 +12,7 @@ sonarr:
           allowed: true
           until_quality: 'WEB 1080p'
           until_score: 600 # Anime Web Tier 01 or better
-        min_format_score: 100
+        min_format_score: 0
         score_set: anime-sonarr
         quality_sort: top
         qualities:
