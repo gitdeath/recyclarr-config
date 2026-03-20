@@ -223,7 +223,7 @@ radarr:
           allowed: true
           until_quality: '1080p'
           until_score: 1750 # DD+ or Web Tier and anything 
-        min_format_score: 1
+        min_format_score: 0
         quality_sort: top
         qualities:
           - name: 1080p # Combine BluRay and Web to ensure best Custom Format Score as the video quality difference doesn't matter.
