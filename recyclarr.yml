@@ -43,6 +43,7 @@ sonarr:
           until_quality: WEB 1080p
           until_score: 1500 # Web Tier release
         min_format_score: 0
+        min_upgrade_format_score: 100 # Language is not always in the release name; stops a same-release re-grab when the file scores lower than the grab
         quality_sort: top
         qualities:
           - name: WEB 1080p
@@ -74,7 +75,23 @@ sonarr:
           - ae575f95ab639ba5d15f663bf019e3e8 # Language Not Original
         assign_scores_to:
           - name: TV
-            score: -1500
+            score: -50 # Soft penalty, paired with min_upgrade_format_score: 100 (same reasoning as Radarr audio)
+      # Repacks: scored in 100-point steps so each one still clears min_upgrade_format_score: 100
+      - trash_ids:
+          - ec8fa7296b64e8cd390a1600981f3923 # Repack/Proper
+        assign_scores_to:
+          - name: TV
+            score: 100
+      - trash_ids:
+          - eb3d5cc0a2be0db205fb823640db6a3c # Repack v2
+        assign_scores_to:
+          - name: TV
+            score: 200
+      - trash_ids:
+          - 44e7c4de10ae50265753082e5dc76047 # Repack v3
+        assign_scores_to:
+          - name: TV
+            score: 300
       - trash_ids:
           # Perferred Video Codec
           - cddfb4e32db826151d97352b8e37c648 # x264
@@ -90,11 +107,6 @@ sonarr:
           - fbcb31d8dabd2a319072b84fc0b7249c # Extras
           - 15a05bc7c1a36e2b57fd628f8977e2fc # AV1
           - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
-
-          # Misc
-          - ec8fa7296b64e8cd390a1600981f3923 # Repack/Proper
-          - eb3d5cc0a2be0db205fb823640db6a3c # Repack v2
-          - 44e7c4de10ae50265753082e5dc76047 # Repack v3
 
           # Streaming Services
           - d660701077794679fd59e8bdf4ce3a29 # AMZN
@@ -194,6 +206,8 @@ sonarr:
           - 851bd64e04c9374c51102be3dd9ae4cc # FLAC
           - 30f70576671ca933adbdcfc736a69718 # PCM
           - a50b8a0c62274a7c38b09a9619ba9d86 # AAC
+          - 834e534f103938853ffced4203b53e72 # 2.0 Stereo
+          - bd6dd5e043aa27ff4696a08d011c7d96 # 1.0 Mono
           - c9eafd50846d299b862ca9bb6ea91950 # x265
         assign_scores_to:
           - name: TV
@@ -280,10 +294,6 @@ radarr:
           - c20f169ef63c5f40c2def54abaf4438e # WEB Tier 01
           - 403816d65392c79236dcb6dd591aeda4 # WEB Tier 02
           - af94e0fe497124d1f9ce732069ec8c3b # WEB Tier 03
-          # Corrected Releases
-          - e7718d7a3ce595f289bfee26adc178f5 # Repack/Proper
-          - ae43b294509409a6a13919dedd4764c4 # Repack2
-          - 5caaaa1c08c1742aa4342d8c4cc463f2 # Repack3
           # Special Editions
           - 957d0f44b592285f26449575e8b1167e # Special Edition
           - 570bc9ebecd92723d2d21500f4be314c # Remaster
@@ -334,16 +344,39 @@ radarr:
           - a570d4a0e56a2874b64e5bfa55202a1b # FLAC
           - e7c2fcae07cbada050a0af3357491d7b # PCM
           - 240770601cc226190c367ef59aba7463 # AAC
+          - 89dac1be53d5268a7e10a19d3c896826 # 2.0 Stereo
+          - b124be9b146540f8e62f98fe32e49a2a # 1.0 Mono
+          - 417804f7f2c4308c1f4c5d380d4c4475 # ATMOS (undefined)
           # Movie Versions
           - e0c07d59beb37348e975a930d5e50319 # Criterion Collection
           - 9d27d9d2181838f76dee150882bdc58c # Masters of Cinema
           - db9b4c4b53d312a3ca5f1378f6440fc9 # Vinegar Syndrome
           - eecf3a857724171f968a66cb5719e152 # IMAX
           - 9f6cbff8cfe4ebbc1bde14c7b7bec0de # IMAX Enhanced
+          - 0f12c086e289cf966fa5948eac571f44 # Hybrid
+          - 09d9dd29a0fc958f9796e65c2a8864b4 # Open Matte
+          - e9001909a4c88013a359d0b9920d7bea # Theatrical Cut
 
         assign_scores_to:
           - name: Movies 1080p
             score: '0' 
+
+      # Repacks: scored in 100-point steps so each one still clears min_upgrade_format_score: 100
+      - trash_ids:
+          - e7718d7a3ce595f289bfee26adc178f5 # Repack/Proper
+        assign_scores_to:
+          - name: Movies 1080p
+            score: 100
+      - trash_ids:
+          - ae43b294509409a6a13919dedd4764c4 # Repack2
+        assign_scores_to:
+          - name: Movies 1080p
+            score: 200
+      - trash_ids:
+          - 5caaaa1c08c1742aa4342d8c4cc463f2 # Repack3
+        assign_scores_to:
+          - name: Movies 1080p
+            score: 300
 
       # Unsupported Audio Formats: soft penalty only. Audio is rarely in the release name, so a large penalty makes the imported file score below the grab and re-triggers the same release. Paired with min_upgrade_format_score: 100 on the profile.
       - trash_ids:
@@ -351,6 +384,7 @@ radarr:
           - 1c1a4c5e823891c75bc50380a6866f73 # DTS
           - 2f22d89048b01681dde8afe203bf2e95 # DTS X
           - dcf3ec6938fa32445f590a4da84256cd # DTS-HD MA
+          - 8e109e50e0a0b83a5098b056e13bf6db # DTS-HD HRA
           - 3cafb66171b47f226146a0770576870f # TrueHD
           - 496f355514737f7d83bf7aa4d24f8169 # TrueHD ATMOS
         assign_scores_to:
@@ -395,9 +429,6 @@ radarr:
           - 403816d65392c79236dcb6dd591aeda4 # WEB Tier 02
           - af94e0fe497124d1f9ce732069ec8c3b # WEB Tier 03
           # Misc
-          - e7718d7a3ce595f289bfee26adc178f5 # Repack/Proper
-          - ae43b294509409a6a13919dedd4764c4 # Repack2
-          - 5caaaa1c08c1742aa4342d8c4cc463f2 # Repack3
           - 957d0f44b592285f26449575e8b1167e # Special Edition         
           - eca37840c13c6ef2dd0262b141a5482f # 4K Remaster 
           # HDR/DV Formats 
@@ -450,12 +481,30 @@ radarr:
             score: '50'
 
 
+      # Repacks: scored in 100-point steps so each one still clears min_upgrade_format_score: 100
+      - trash_ids:
+          - e7718d7a3ce595f289bfee26adc178f5 # Repack/Proper
+        assign_scores_to:
+          - name: Movies 4k
+            score: 100
+      - trash_ids:
+          - ae43b294509409a6a13919dedd4764c4 # Repack2
+        assign_scores_to:
+          - name: Movies 4k
+            score: 200
+      - trash_ids:
+          - 5caaaa1c08c1742aa4342d8c4cc463f2 # Repack3
+        assign_scores_to:
+          - name: Movies 4k
+            score: 300
+
       # Unsupported Audio Formats: soft penalty only (see radarr_1080p). Paired with min_upgrade_format_score: 100 on the profile.
       - trash_ids:
           - f9f847ac70a0af62ea4a08280b859636 # DTS-ES
           - 1c1a4c5e823891c75bc50380a6866f73 # DTS
           - 2f22d89048b01681dde8afe203bf2e95 # DTS X
           - dcf3ec6938fa32445f590a4da84256cd # DTS-HD MA
+          - 8e109e50e0a0b83a5098b056e13bf6db # DTS-HD HRA
           - 3cafb66171b47f226146a0770576870f # TrueHD
           - 496f355514737f7d83bf7aa4d24f8169 # TrueHD ATMOS
         assign_scores_to:
@@ -469,6 +518,9 @@ radarr:
           - 6fd7b090c3f7317502ab3b63cc7f51e3 # 6.1 Surround
           - e7c2fcae07cbada050a0af3357491d7b # PCM
           - 240770601cc226190c367ef59aba7463 # AAC
+          - 89dac1be53d5268a7e10a19d3c896826 # 2.0 Stereo
+          - b124be9b146540f8e62f98fe32e49a2a # 1.0 Mono
+          - 417804f7f2c4308c1f4c5d380d4c4475 # ATMOS (undefined)
           - a570d4a0e56a2874b64e5bfa55202a1b # FLAC
           # Movie Versions
           - 570bc9ebecd92723d2d21500f4be314c # Remaster
@@ -477,6 +529,9 @@ radarr:
           - db9b4c4b53d312a3ca5f1378f6440fc9 # Vinegar Syndrome
           - eecf3a857724171f968a66cb5719e152 # IMAX
           - 9f6cbff8cfe4ebbc1bde14c7b7bec0de # IMAX Enhanced
+          - 0f12c086e289cf966fa5948eac571f44 # Hybrid
+          - 09d9dd29a0fc958f9796e65c2a8864b4 # Open Matte
+          - e9001909a4c88013a359d0b9920d7bea # Theatrical Cut
         assign_scores_to:
           - name: Movies 4k
             score: '0'

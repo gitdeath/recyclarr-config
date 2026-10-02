@@ -46,21 +46,22 @@ This instance handles both TV shows and Anime, directing them to separate qualit
 This profile is for standard television series.
 
 -   **Quality Priority:** It prioritizes releases in named groups: `WEB 1080p` is first, followed by a `1080p` group (for Blu-ray/HDTV), a `720p` group, an `Other` group for SD formats, and finally an `Unknown` group as a catch-all. This is designed to get good quality releases while being mindful of storage space.
--   **Upgrades:** It allows upgrades until a release reaches `WEB 1080p` quality with a custom format score of `1500`.
+-   **Upgrades:** It allows upgrades until a release reaches `WEB 1080p` quality with a custom format score of `1500`. An upgrade must beat the existing file by at least `100` points (`min_upgrade_format_score: 100`).
 -   **Score Cleaning:** `reset_unmatched_scores` is enabled, which means any custom format not explicitly defined for this profile in the config will have its score reset to `0`. This prevents unwanted formats from influencing download choices.
 
 #### Custom Format Scoring for `TV`
 
--   **Penalized (-1500 score):**
-    -   `Language Not Original`: Strongly penalizes any release that is not in the show's original language. This makes it highly unlikely to be grabbed unless no other options exist with a better score.
--   **Default Scores (from TRaSH Guides):**
+-   **Penalized (-50 score):**
+    -   `Language: Not Original`: Prefers releases in the show's original language. The penalty is soft for the same reason as the Radarr audio penalty; see [Why the penalties are soft](#why-the-penalties-are-soft).
+-   **Custom Scores:**
     -   **Codec Preference:** Prefers `x264` releases with a score of `100`.
+    -   **Repacks:** `Repack/Proper` `100`, `Repack v2` `200`, `Repack v3` `300`, so each fix still clears the 100-point upgrade minimum.
+-   **Default Scores (from TRaSH Guides):**
     -   **Unwanted:** Rejects BR-DISK, low-quality (LQ) releases, extras, AV1/x265(HD) codecs, and releases from bad dual-audio groups.
-    -   **Release Quality:** Scores `Repack/Proper` releases to get fixes.
     -   **Source Preference:** Scores releases from high-quality WEB sources (Tiers 01-03) and Scene groups.
     -   **Streaming Services:** Scores releases from various streaming services (e.g., Netflix, HBO Max, DSNP).
 -   **Informational (0 score):**
-    -   A wide range of audio formats (DTS, Dolby Digital, Atmos, etc.) are tagged for visibility in the Sonarr UI but do not affect scoring.
+    -   A wide range of audio formats (DTS, Dolby Digital, Atmos, etc.) and channel layouts (7.1, 6.1, 5.1, 2.0 Stereo, 1.0 Mono) are tagged for visibility in the Sonarr UI but do not affect scoring.
 
 ### Quality Profile: `Anime`
 
@@ -91,19 +92,22 @@ This instance is configured for a general-purpose 1080p movie library.
 
 -   **Quality Priority:** Groups all 1080p sources (WEB, Blu-ray, HDTV) together, allowing the custom format score to be the primary decision-maker for the best release.
 -   **Upgrades:** Allows upgrades until a score of `1750` is reached within the `1080p` quality group. An upgrade must beat the existing file by at least `100` points (`min_upgrade_format_score: 100`).
--   **Audio Preference:** This profile prefers releases without DTS and other high-bitrate or lossless audio codecs (e.g., DTS-HD MA, TrueHD), because DTS support is declining and these codecs have weaker hardware compatibility. The penalty is deliberately small; see [Why the audio penalty is soft](#why-the-audio-penalty-is-soft).
+-   **Audio Preference:** This profile prefers releases without DTS and other high-bitrate or lossless audio codecs (e.g., DTS-HD MA, TrueHD), because DTS support is declining and these codecs have weaker hardware compatibility. The penalty is deliberately small; see [Why the penalties are soft](#why-the-penalties-are-soft).
 
 #### Custom Format Scoring for `Movies 1080p`
 
 -   **Penalized (-50 score):**
-    -   `DTS`, `DTS-ES`, `DTS:X`, `DTS-HD MA`, `TrueHD`, `TrueHD ATMOS`: Acts as a tiebreaker, so a release named as DD/DD+ (or with no audio in its name) wins over an otherwise identical DTS release.
--   **Default Scores (from TRaSH Guides):**
+    -   `DTS`, `DTS-ES`, `DTS:X`, `DTS-HD MA`, `DTS-HD HRA`, `TrueHD`, `TrueHD ATMOS`: Acts as a tiebreaker, so a release named as DD/DD+ (or with no audio in its name) wins over an otherwise identical DTS release.
+-   **Custom Scores:**
     -   **Codec Preference:** Prefers `x264` with a score of `100`. `x265` is given a neutral score of `0`.
+    -   **Streaming Services:** `50` for releases from major streaming services.
+    -   **Repacks:** `Repack/Proper` `100`, `Repack2` `200`, `Repack3` `300`, so each fix still clears the 100-point upgrade minimum.
+-   **Default Scores (from TRaSH Guides):**
     -   **Unwanted:** Rejects BR-DISK, 3D, upscaled, LQ, and AV1/x265(HD) releases.
     -   **Source Preference:** Prefers releases from high-quality Blu-ray and WEB groups (Tiers 01-03).
     -   **Audio Preference:** Prefers releases with `5.1 Surround` and `DD` audio.
 -   **Informational (0 score):**
-    -   Tags for special movie versions (`Criterion Collection`, `IMAX`, etc.) and certain audio codecs (`FLAC`, `AAC`) are applied for visibility without affecting scores.
+    -   Tags for special movie versions (`Criterion Collection`, `Masters of Cinema`, `Vinegar Syndrome`, `IMAX`, `IMAX Enhanced`, `Hybrid`, `Open Matte`, `Theatrical Cut`), audio codecs (`FLAC`, `PCM`, `AAC`, `ATMOS (undefined)`) and channel layouts (`7.1`, `6.1`, `2.0 Stereo`, `1.0 Mono`) are applied for visibility without affecting scores.
 
 ---
 
@@ -120,26 +124,30 @@ This instance is dedicated to acquiring high-quality 4K HDR movies.
 #### Custom Format Scoring for `Movies 4k`
 
 -   **Penalized (-50 score):**
-    -   `DTS`, `DTS-ES`, `DTS:X`, `DTS-HD MA`, `TrueHD`, `TrueHD ATMOS`: Tiebreaker against DTS and lossless audio, as in the 1080p profile.
+    -   `DTS`, `DTS-ES`, `DTS:X`, `DTS-HD MA`, `DTS-HD HRA`, `TrueHD`, `TrueHD ATMOS`: Tiebreaker against DTS and lossless audio, as in the 1080p profile.
+-   **Custom Scores:**
+    -   **Streaming Services:** `50` for releases from major streaming services.
+    -   **Repacks:** `Repack/Proper` `100`, `Repack2` `200`, `Repack3` `300`, as in the 1080p profile.
 -   **Default Scores (from TRaSH Guides):**
     -   **HDR Formats:** Strongly prefers releases with any form of HDR, including `HDR10+` and `Dolby Vision (DV)`.
     -   **Source Preference:** Prefers releases from top-tier UHD Blu-ray and WEB groups.
     -   **Unwanted:** Rejects BR-DISK, 3D, upscaled, LQ, and AV1/x265(HD) releases.
     -   **Audio Preference:** Prefers releases with `5.1 Surround` and `DD` audio.
 -   **Informational (0 score):**
-    -   Tags for special movie versions (`IMAX`, `Remaster`) and certain audio codecs (`FLAC`, `AAC`) are applied for visibility.
+    -   Tags for special movie versions (`Remaster`, `Criterion Collection`, `Masters of Cinema`, `Vinegar Syndrome`, `IMAX`, `IMAX Enhanced`, `Hybrid`, `Open Matte`, `Theatrical Cut`), audio codecs (`FLAC`, `PCM`, `AAC`, `ATMOS (undefined)`) and channel layouts (`7.1`, `6.1`, `2.0 Stereo`, `1.0 Mono`) are applied for visibility.
 
 ---
 
-## Why the audio penalty is soft
+## Why the penalties are soft
 
-Radarr scores a release twice: once at grab time from the **release name**, and again after import from the **file** (its name plus media info). Audio codecs are rarely in release names, so a release like `Movie.2022.1080p.BluRay.H264-GROUP` scores `+100` (x264) when grabbed. Once imported, media info reveals DTS-HD MA and the file is rescored.
+Sonarr and Radarr score a release twice: once at grab time from the **release name**, and again after import from the **file** (its name plus media info). Audio codecs are rarely in release names, so a release like `Movie.2022.1080p.BluRay.H264-GROUP` scores `+100` (x264) when grabbed. Once imported, media info reveals DTS-HD MA and the file is rescored.
 
 With the old `-1500` penalty the file dropped to `-1400`. That made the exact same release look like a `+1500` upgrade over the file it had just produced, so Radarr grabbed it again on the next search, imported it, rescored it, and repeated indefinitely. This is the same grab-vs-import scoring mismatch described in [Radarr#11422](https://github.com/Radarr/Radarr/issues/11422).
 
-Any negative score on a format that only shows up after import can cause this loop. The fix has two parts:
+Any large negative score on a format that can show up only after import can cause this loop. That covers the Radarr audio formats and Sonarr's `Language: Not Original`, since a release name does not always state its audio language. The fix has three parts:
 
-1.  **A small penalty (`-50`)** keeps DTS/TrueHD as a tiebreaker when a release name does mention them.
+1.  **A small penalty (`-50`)** keeps the format as a tiebreaker when a release name does reveal it.
 2.  **`min_upgrade_format_score: 100`** requires an upgrade to beat the existing file by at least 100 points. The gap between a release's grab score and its own imported file is now only 50, so the same release is never re-grabbed. Real upgrades (x264 over x265, a better release group tier) still clear the threshold.
+3.  **Repack scores in 100-point steps.** With "Download Propers and Repacks" set to "Do not prefer" (the TRaSH recommendation), repacks upgrade only through their custom format score. The TRaSH defaults (5, 6, 7) would fall below the 100-point minimum, so they are raised to 100, 200 and 300.
 
 The trade-off is that a 50-point streaming-service bonus on its own no longer triggers an upgrade.
