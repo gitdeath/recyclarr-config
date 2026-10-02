@@ -2,7 +2,6 @@ sonarr:
   sonarr_tv_anime:
 
     delete_old_custom_formats: true
-    replace_existing_custom_formats: true
 
     quality_profiles:
       - name: Anime
@@ -210,7 +209,6 @@ radarr:
   radarr_1080p:
 
     delete_old_custom_formats: true # Set to true for first run after major changes
-    replace_existing_custom_formats: true # Set to true for first run after major changes
 
     quality_definition:
       type: anime
@@ -224,6 +222,7 @@ radarr:
           until_quality: '1080p'
           until_score: 1750 # DD+ or Web Tier and anything 
         min_format_score: 0
+        min_upgrade_format_score: 100 # Same-release grab vs imported file differs by the -50 audio penalty; this stops that re-grab loop
         quality_sort: top
         qualities:
           - name: 1080p # Combine BluRay and Web to ensure best Custom Format Score as the video quality difference doesn't matter.
@@ -346,7 +345,7 @@ radarr:
           - name: Movies 1080p
             score: '0' 
 
-      # Unsupported Audio Formats
+      # Unsupported Audio Formats: soft penalty only. Audio is rarely in the release name, so a large penalty makes the imported file score below the grab and re-triggers the same release. Paired with min_upgrade_format_score: 100 on the profile.
       - trash_ids:
           - f9f847ac70a0af62ea4a08280b859636 # DTS-ES
           - 1c1a4c5e823891c75bc50380a6866f73 # DTS
@@ -356,14 +355,13 @@ radarr:
           - 496f355514737f7d83bf7aa4d24f8169 # TrueHD ATMOS
         assign_scores_to:
           - name: Movies 1080p
-            score: '-1500' 
+            score: '-50' 
 
 
 
   radarr_4k:
 
     delete_old_custom_formats: true # Set to true for first run after major changes
-    replace_existing_custom_formats: true # Set to true for first run after major changes
 
     quality_definition:
       type: movie
@@ -377,6 +375,7 @@ radarr:
           until_quality: 2160p
           until_score: 13400 # Best possible quality
         min_format_score: 1
+        min_upgrade_format_score: 100 # See radarr_1080p
         quality_sort: top
         qualities:
           - name: 2160p
@@ -451,7 +450,7 @@ radarr:
             score: '50'
 
 
-      # Unsupported Audio Formats
+      # Unsupported Audio Formats: soft penalty only (see radarr_1080p). Paired with min_upgrade_format_score: 100 on the profile.
       - trash_ids:
           - f9f847ac70a0af62ea4a08280b859636 # DTS-ES
           - 1c1a4c5e823891c75bc50380a6866f73 # DTS
@@ -461,7 +460,7 @@ radarr:
           - 496f355514737f7d83bf7aa4d24f8169 # TrueHD ATMOS
         assign_scores_to:
           - name: Movies 4k
-            score: '-1500'
+            score: '-50'
 
       # Tags for Visual use only
       - trash_ids:
