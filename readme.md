@@ -21,9 +21,8 @@ This Recyclarr setup is designed for users who want a highly automated, "set-it-
 
 This configuration file is meant to be used with [**Recyclarr**](https://github.com/recyclarr/recyclarr) **v8 or newer**. Please follow the official installation and setup guides.
 
--   **Version requirement:** The Radarr profiles use `min_upgrade_format_score`, which Recyclarr v7 rejects (it skips the entire config with a "Property not found" error).
--   **Docker image tag:** Recyclarr no longer publishes a `latest` tag. An image pinned to `recyclarr/recyclarr:latest` stays on v7.4.1 forever and fails to pull on new hosts. Use a version tag such as `recyclarr/recyclarr:8`.
--   **Upgrading from v7:** If v7 ever ran after v8 had already been used (for example, a stale image on another host), both `/config/cache` and `/config/state` will exist and v8's migration will fail with "file already exists". Keep `state` (v8's data) and move `cache` out of the way.
+-   **Version requirement:** The profiles use `min_upgrade_format_score`, which requires Recyclarr v8.
+-   **Docker image tag:** Use the major-version tag `recyclarr/recyclarr:8`. Recyclarr publishes version tags (`8`, `8.x`, `8.x.y`), not `latest`.
 
 It is also assumed that you are using a `secrets.yml` file to store your API keys and instance URLs, as this is a security best practice. You can find the official documentation on how to set this up [here](https://recyclarr.dev/wiki/yaml/secrets-reference/).
 
@@ -142,12 +141,12 @@ This instance is dedicated to acquiring high-quality 4K HDR movies.
 
 Sonarr and Radarr score a release twice: once at grab time from the **release name**, and again after import from the **file** (its name plus media info). Audio codecs are rarely in release names, so a release like `Movie.2022.1080p.BluRay.H264-GROUP` scores `+100` (x264) when grabbed. Once imported, media info reveals DTS-HD MA and the file is rescored.
 
-With the old `-1500` penalty the file dropped to `-1400`. That made the exact same release look like a `+1500` upgrade over the file it had just produced, so Radarr grabbed it again on the next search, imported it, rescored it, and repeated indefinitely. This is the same grab-vs-import scoring mismatch described in [Radarr#11422](https://github.com/Radarr/Radarr/issues/11422).
+If that format carried a large penalty such as `-1500`, the file would drop to `-1400`. The exact same release would then look like a `+1500` upgrade over the file it just produced, so it would be grabbed, imported and rescored again on every search, indefinitely. This is the grab-vs-import scoring mismatch described in [Radarr#11422](https://github.com/Radarr/Radarr/issues/11422).
 
-Any large negative score on a format that can show up only after import can cause this loop. That covers the Radarr audio formats and Sonarr's `Language: Not Original`, since a release name does not always state its audio language. The fix has three parts:
+Any large negative score on a format that can show up only after import has this problem. That covers the Radarr audio formats and Sonarr's `Language: Not Original`, since a release name does not always state its audio language. The config handles it in three parts:
 
 1.  **A small penalty (`-50`)** keeps the format as a tiebreaker when a release name does reveal it.
-2.  **`min_upgrade_format_score: 100`** requires an upgrade to beat the existing file by at least 100 points. The gap between a release's grab score and its own imported file is now only 50, so the same release is never re-grabbed. Real upgrades (x264 over x265, a better release group tier) still clear the threshold.
-3.  **Repack scores in 100-point steps.** With "Download Propers and Repacks" set to "Do not prefer" (the TRaSH recommendation), repacks upgrade only through their custom format score. The TRaSH defaults (5, 6, 7) would fall below the 100-point minimum, so they are raised to 100, 200 and 300.
+2.  **`min_upgrade_format_score: 100`** requires an upgrade to beat the existing file by at least 100 points. The gap between a release's grab score and its own imported file is at most 50, so the same release is never re-grabbed. Real upgrades (x264 over x265, a better release group tier) still clear the threshold.
+3.  **Repack scores in 100-point steps.** With "Download Propers and Repacks" set to "Do not prefer" (the TRaSH recommendation), repacks upgrade only through their custom format score. They score 100, 200 and 300 so that each one clears the 100-point minimum (the TRaSH defaults of 5, 6 and 7 would not).
 
-The trade-off is that a 50-point streaming-service bonus on its own no longer triggers an upgrade.
+The trade-off is that a 50-point streaming-service bonus on its own does not trigger an upgrade.
